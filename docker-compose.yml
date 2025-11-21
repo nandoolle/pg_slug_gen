@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  postgres:
+    build: .
+    container_name: pg_unique_slug_dev
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: testdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./:/extension
+      - pgdata:/var/lib/postgresql/data
+    command: postgres -c shared_preload_libraries=''
+
+volumes:
+  pgdata:

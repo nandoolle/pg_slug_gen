@@ -1,0 +1,46 @@
+{
+  "name": "pg_unique_slug",
+  "abstract": "Generate cryptographically secure unique random slugs",
+  "description": "PostgreSQL extension that generates unique random slugs using pg_strong_random() with guaranteed uniqueness by checking against existing values in specified tables.",
+  "version": "1.0.0",
+  "maintainer": "Fernando Olle",
+  "license": "mit",
+  "provides": {
+    "pg_unique_slug": {
+      "abstract": "Generate unique random slugs with cryptographic security",
+      "file": "sql/pg_unique_slug--1.0.sql",
+      "docfile": "README.md",
+      "version": "1.0.0"
+    }
+  },
+  "prereqs": {
+    "runtime": {
+      "requires": {
+        "PostgreSQL": "12.0.0"
+      }
+    }
+  },
+  "resources": {
+    "bugtracker": {
+      "web": "https://github.com/fernandoolle/pg_unique_slug/issues"
+    },
+    "repository": {
+      "url": "git://github.com/fernandoolle/pg_unique_slug.git",
+      "web": "https://github.com/fernandoolle/pg_unique_slug",
+      "type": "git"
+    }
+  },
+  "generated_by": "Fernando Olle",
+  "meta-spec": {
+    "version": "1.0.0",
+    "url": "https://pgxn.org/spec/"
+  },
+  "tags": [
+    "slug",
+    "unique",
+    "random",
+    "generator",
+    "cryptographic",
+    "security"
+  ]
+}

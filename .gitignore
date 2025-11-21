@@ -1,0 +1,33 @@
+# Compiled files
+*.o
+*.so
+*.bc
+*.dylib
+
+# Build artifacts
+*.a
+*.la
+*.lo
+
+# PostgreSQL extension build files
+regression.diffs
+regression.out
+results/
+
+# Editor files
+*.swp
+*.swo
+*~
+.DS_Store
+.vscode/
+.idea/
+
+# Docker volumes
+pgdata/
+
+# Distribution
+*.tar.gz
+*.zip
+
+# Logs
+*.log
