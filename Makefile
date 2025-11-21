@@ -1,8 +1,8 @@
-EXTENSION = pg_unique_slug
-MODULE_big = pg_unique_slug
-OBJS = pg_unique_slug.o
+EXTENSION = pg_slug_gen
+MODULE_big = pg_slug_gen
+OBJS = pg_slug_gen.o
 
-DATA = sql/pg_unique_slug--1.0.sql
+DATA = sql/pg_slug_gen--1.0.sql
 DOCS = README.md
 
 # Regression tests

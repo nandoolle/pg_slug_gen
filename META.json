@@ -1,14 +1,14 @@
 {
-  "name": "pg_unique_slug",
+  "name": "pg_slug_gen",
   "abstract": "Generate cryptographically secure unique random slugs",
-  "description": "PostgreSQL extension that generates unique random slugs using pg_strong_random() with guaranteed uniqueness by checking against existing values in specified tables.",
+  "description": "PostgreSQL extension that generates unique random slugs based on timestamp with cryptographic randomness. Guarantees uniqueness when max 1 insert per time unit.",
   "version": "1.0.0",
   "maintainer": "Fernando Olle",
   "license": "mit",
   "provides": {
-    "pg_unique_slug": {
+    "pg_slug_gen": {
       "abstract": "Generate unique random slugs with cryptographic security",
-      "file": "sql/pg_unique_slug--1.0.sql",
+      "file": "sql/pg_slug_gen--1.0.sql",
       "docfile": "README.md",
       "version": "1.0.0"
     }
@@ -22,11 +22,11 @@
   },
   "resources": {
     "bugtracker": {
-      "web": "https://github.com/fernandoolle/pg_unique_slug/issues"
+      "web": "https://github.com/fernandoolle/pg_slug_gen/issues"
     },
     "repository": {
-      "url": "git://github.com/fernandoolle/pg_unique_slug.git",
-      "web": "https://github.com/fernandoolle/pg_unique_slug",
+      "url": "git://github.com/fernandoolle/pg_slug_gen.git",
+      "web": "https://github.com/fernandoolle/pg_slug_gen",
       "type": "git"
     }
   },
@@ -39,8 +39,8 @@
     "slug",
     "unique",
     "random",
+    "timestamp",
     "generator",
-    "cryptographic",
-    "security"
+    "url-friendly"
   ]
 }

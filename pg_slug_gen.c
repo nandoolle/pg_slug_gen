@@ -1,9 +1,8 @@
 /*
- * pg_unique_slug.c - PostgreSQL extension for generating unique random slugs
+ * pg_slug_gen.c - PostgreSQL extension for generating random slugs
  *
- * Generates unique slugs based on timestamp with randomized character mapping.
- * Each digit of the timestamp maps to a bucket of letters, ensuring uniqueness
- * when there's at most one insert per time unit.
+ * Generates random slugs based on timestamp with randomized character mapping.
+ * Each digit of the timestamp maps to a bucket of letters.
  */
 
 #include "postgres.h"
@@ -14,7 +13,7 @@
 
 PG_MODULE_MAGIC;
 
-PG_FUNCTION_INFO_V1(gen_unique_slug);
+PG_FUNCTION_INFO_V1(gen_random_slug);
 
 /*
  * 52 letters distributed across 10 buckets (one per digit 0-9)
@@ -100,7 +99,7 @@ timestamp_to_slug(uint64 ts, int len, char *slug)
 }
 
 Datum
-gen_unique_slug(PG_FUNCTION_ARGS)
+gen_random_slug(PG_FUNCTION_ARGS)
 {
     int32   len;
     uint64  ts;

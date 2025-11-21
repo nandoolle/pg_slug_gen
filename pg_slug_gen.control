@@ -1,0 +1,5 @@
+# pg_slug_gen extension
+comment = 'Generate random slugs based on timestamp with cryptographic security'
+default_version = '1.0'
+module_pathname = '$libdir/pg_slug_gen'
+relocatable = true

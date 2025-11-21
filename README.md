@@ -1,4 +1,4 @@
-# pg_unique_slug
+# pg_slug_gen
 
 PostgreSQL extension for generating unique random slugs based on timestamp.
 
@@ -22,7 +22,7 @@ make install
 ### Enable Extension
 
 ```sql
-CREATE EXTENSION pg_unique_slug;
+CREATE EXTENSION pg_slug_gen;
 ```
 
 ### Using Docker (Development)
@@ -38,17 +38,17 @@ CREATE EXTENSION pg_unique_slug;
 ### Function Signature
 
 ```sql
-gen_unique_slug(slug_length int DEFAULT 16) RETURNS text
+gen_random_slug(slug_length int DEFAULT 16) RETURNS text
 ```
 
 ### Interface
 
 ```sql
-gen_unique_slug()      -- default: 16 (microseconds)
-gen_unique_slug(10)    -- seconds
-gen_unique_slug(13)    -- milliseconds
-gen_unique_slug(16)    -- microseconds
-gen_unique_slug(19)    -- nanoseconds
+gen_random_slug()      -- default: 16 (microseconds)
+gen_random_slug(10)    -- seconds
+gen_random_slug(13)    -- milliseconds
+gen_random_slug(16)    -- microseconds
+gen_random_slug(19)    -- nanoseconds
 ```
 
 ### Timestamp Precision
@@ -81,14 +81,14 @@ The slug includes a hyphen separator at the midpoint:
 
 ```sql
 -- Default (microseconds precision)
-SELECT gen_unique_slug();
+SELECT gen_random_slug();
 -- Result: 'qWeRtYuI-oPasDfGh'
 
 -- Specific precision
-SELECT gen_unique_slug(10);   -- seconds: 11 chars
-SELECT gen_unique_slug(13);   -- milliseconds: 14 chars
-SELECT gen_unique_slug(16);   -- microseconds: 17 chars
-SELECT gen_unique_slug(19);   -- nanoseconds: 20 chars
+SELECT gen_random_slug(10);   -- seconds: 11 chars
+SELECT gen_random_slug(13);   -- milliseconds: 14 chars
+SELECT gen_random_slug(16);   -- microseconds: 17 chars
+SELECT gen_random_slug(19);   -- nanoseconds: 20 chars
 ```
 
 #### As Column Default
@@ -97,7 +97,7 @@ SELECT gen_unique_slug(19);   -- nanoseconds: 20 chars
 CREATE TABLE products (
     id serial PRIMARY KEY,
     name text NOT NULL,
-    slug text DEFAULT gen_unique_slug() UNIQUE
+    slug text DEFAULT gen_random_slug() UNIQUE
 );
 
 INSERT INTO products (name) VALUES ('My Product');
@@ -108,7 +108,7 @@ INSERT INTO products (name) VALUES ('My Product');
 
 ```sql
 INSERT INTO products (name, slug)
-VALUES ('Another Product', gen_unique_slug(13));
+VALUES ('Another Product', gen_random_slug(13));
 ```
 
 ## How It Works
@@ -154,11 +154,11 @@ Digit 9: CvBnM  (5 letters)
 ### Project Structure
 
 ```
-pg_unique_slug/
-├── pg_unique_slug.c           # Main C source code
-├── pg_unique_slug.control     # Extension metadata
+pg_slug_gen/
+├── pg_slug_gen.c           # Main C source code
+├── pg_slug_gen.control     # Extension metadata
 ├── sql/
-│   └── pg_unique_slug--1.0.sql # SQL installation script
+│   └── pg_slug_gen--1.0.sql # SQL installation script
 ├── test/
 │   ├── sql/
 │   │   └── basic.sql          # Regression tests

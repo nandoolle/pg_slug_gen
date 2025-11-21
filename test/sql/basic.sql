@@ -1,42 +1,42 @@
--- Basic tests for pg_unique_slug extension
+-- Basic tests for pg_slug_gen extension
 
 -- Load the extension
-CREATE EXTENSION pg_unique_slug;
+CREATE EXTENSION pg_slug_gen;
 
 -- Test 1: Default length (16 = microseconds)
-SELECT length(gen_unique_slug()) = 17 AS default_length_correct;
+SELECT length(gen_random_slug()) = 17 AS default_length_correct;
 
 -- Test 2: Length 10 (seconds) - produces 11 chars (10 + hyphen)
-SELECT length(gen_unique_slug(10)) = 11 AS len10_correct;
+SELECT length(gen_random_slug(10)) = 11 AS len10_correct;
 
 -- Test 3: Length 13 (milliseconds) - produces 14 chars (13 + hyphen)
-SELECT length(gen_unique_slug(13)) = 14 AS len13_correct;
+SELECT length(gen_random_slug(13)) = 14 AS len13_correct;
 
 -- Test 4: Length 16 (microseconds) - produces 17 chars (16 + hyphen)
-SELECT length(gen_unique_slug(16)) = 17 AS len16_correct;
+SELECT length(gen_random_slug(16)) = 17 AS len16_correct;
 
 -- Test 5: Length 19 (nanoseconds) - produces 20 chars (19 + hyphen)
-SELECT length(gen_unique_slug(19)) = 20 AS len19_correct;
+SELECT length(gen_random_slug(19)) = 20 AS len19_correct;
 
 -- Test 6: Verify slug contains only valid characters (letters and hyphen)
-SELECT gen_unique_slug() ~ '^[A-Za-z]+-[A-Za-z]+$' AS valid_format;
+SELECT gen_random_slug() ~ '^[A-Za-z]+-[A-Za-z]+$' AS valid_format;
 
 -- Test 7: Verify hyphen position for length 10 (5-5)
-SELECT gen_unique_slug(10) ~ '^[A-Za-z]{5}-[A-Za-z]{5}$' AS hyphen_pos_10;
+SELECT gen_random_slug(10) ~ '^[A-Za-z]{5}-[A-Za-z]{5}$' AS hyphen_pos_10;
 
 -- Test 8: Verify hyphen position for length 13 (6-7)
-SELECT gen_unique_slug(13) ~ '^[A-Za-z]{6}-[A-Za-z]{7}$' AS hyphen_pos_13;
+SELECT gen_random_slug(13) ~ '^[A-Za-z]{6}-[A-Za-z]{7}$' AS hyphen_pos_13;
 
 -- Test 9: Verify hyphen position for length 16 (8-8)
-SELECT gen_unique_slug(16) ~ '^[A-Za-z]{8}-[A-Za-z]{8}$' AS hyphen_pos_16;
+SELECT gen_random_slug(16) ~ '^[A-Za-z]{8}-[A-Za-z]{8}$' AS hyphen_pos_16;
 
 -- Test 10: Verify hyphen position for length 19 (9-10)
-SELECT gen_unique_slug(19) ~ '^[A-Za-z]{9}-[A-Za-z]{10}$' AS hyphen_pos_19;
+SELECT gen_random_slug(19) ~ '^[A-Za-z]{9}-[A-Za-z]{10}$' AS hyphen_pos_19;
 
 -- Test 11: Error on invalid length
 DO $$
 BEGIN
-    PERFORM gen_unique_slug(8);
+    PERFORM gen_random_slug(8);
     RAISE EXCEPTION 'Should have raised error for length 8';
 EXCEPTION
     WHEN OTHERS THEN
@@ -45,14 +45,14 @@ END $$;
 
 -- Test 12: Generate multiple slugs - all should be unique
 CREATE TABLE test_unique (slug text);
-INSERT INTO test_unique SELECT gen_unique_slug() FROM generate_series(1, 100);
+INSERT INTO test_unique SELECT gen_random_slug() FROM generate_series(1, 100);
 SELECT COUNT(DISTINCT slug) = 100 AS all_unique FROM test_unique;
 DROP TABLE test_unique;
 
 -- Test 13: Can be used as DEFAULT value
 CREATE TABLE test_default (
     id serial PRIMARY KEY,
-    slug text DEFAULT gen_unique_slug() UNIQUE
+    slug text DEFAULT gen_random_slug() UNIQUE
 );
 INSERT INTO test_default DEFAULT VALUES;
 INSERT INTO test_default DEFAULT VALUES;

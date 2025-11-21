@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     build: .
-    container_name: pg_unique_slug_dev
+    container_name: pg_slug_gen_dev
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

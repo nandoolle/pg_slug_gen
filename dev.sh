@@ -2,7 +2,7 @@
 
 set -e
 
-CONTAINER_NAME="pg_unique_slug_dev"
+CONTAINER_NAME="pg_slug_gen_dev"
 DB_NAME="testdb"
 DB_USER="postgres"
 
@@ -33,8 +33,8 @@ case "$1" in
 
   install)
     echo "Installing extension in database..."
-    docker exec -it $CONTAINER_NAME psql -U $DB_USER -d $DB_NAME -c "DROP EXTENSION IF EXISTS pg_unique_slug CASCADE;"
-    docker exec -it $CONTAINER_NAME psql -U $DB_USER -d $DB_NAME -c "CREATE EXTENSION pg_unique_slug;"
+    docker exec -it $CONTAINER_NAME psql -U $DB_USER -d $DB_NAME -c "DROP EXTENSION IF EXISTS pg_slug_gen CASCADE;"
+    docker exec -it $CONTAINER_NAME psql -U $DB_USER -d $DB_NAME -c "CREATE EXTENSION pg_slug_gen;"
     echo "Extension installed successfully!"
     ;;
 
@@ -65,15 +65,15 @@ case "$1" in
     echo "Running quick manual test..."
     docker exec -i $CONTAINER_NAME psql -U $DB_USER -d $DB_NAME << 'EOF'
 -- Test different precision levels
-SELECT 'Length 10 (seconds):' as test, gen_unique_slug(10) as slug;
-SELECT 'Length 13 (millis):' as test, gen_unique_slug(13) as slug;
-SELECT 'Length 16 (micros):' as test, gen_unique_slug(16) as slug;
-SELECT 'Length 19 (nanos):' as test, gen_unique_slug(19) as slug;
-SELECT 'Default (16):' as test, gen_unique_slug() as slug;
+SELECT 'Length 10 (seconds):' as test, gen_random_slug(10) as slug;
+SELECT 'Length 13 (millis):' as test, gen_random_slug(13) as slug;
+SELECT 'Length 16 (micros):' as test, gen_random_slug(16) as slug;
+SELECT 'Length 19 (nanos):' as test, gen_random_slug(19) as slug;
+SELECT 'Default (16):' as test, gen_random_slug() as slug;
 
 -- Generate multiple slugs
 SELECT 'Multiple slugs:' as test;
-SELECT gen_unique_slug() FROM generate_series(1, 5);
+SELECT gen_random_slug() FROM generate_series(1, 5);
 
 SELECT 'Quick test completed!' as result;
 EOF
@@ -91,7 +91,7 @@ EOF
     ;;
 
   *)
-    echo "pg_unique_slug Development Helper"
+    echo "pg_slug_gen Development Helper"
     echo ""
     echo "Usage: ./dev.sh [command]"
     echo ""
