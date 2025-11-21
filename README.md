@@ -12,9 +12,17 @@ PostgreSQL extension for generating unique random slugs based on timestamp.
 
 ## Installation
 
+### From PGXN
+
+```bash
+pgxn install pg_slug_gen
+```
+
 ### From Source
 
 ```bash
+git clone https://github.com/nandoolle/pg_slug_gen.git
+cd pg_slug_gen
 make
 make install
 ```
